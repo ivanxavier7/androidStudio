@@ -30,21 +30,15 @@ public class SliderAdapter extends PagerAdapter {
     };
 
     public String[] slide_headings = {
-            "EAT",
-            "SLEEP",
-            "CODE"
+            "Organize as suas contas",
+            "Monotorize o seu dinheiro",
+            "Descubra o seu saldo"
     };
 
     public String[] slide_desc = {
-            "It is a long established fact that a reader will be distracted by the readable content " +
-                    "of a page when looking at its layout. The point of using Lorem Ipsum is that it " +
-                    "has a more-or-less normal distribution of letters, as opposed to using 'Content here," +
-                    " content here', making it look like readable English.",
-            "There are many variations of passages of Lorem Ipsum available, but the majority have " +
-                    "suffered alteration in some form, by injected humour, or randomised words which " +
-                    "don't look even slightly believable.",
-            "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those " +
-                    "interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\""
+            "Em qualquer lugar, de forma simples e gratuita",
+            "Com alertas e categorias para facilitar a organizar o seu património",
+            "O iMiser permite centralizar o seu saldo num único valor"
     };
 
     @Override

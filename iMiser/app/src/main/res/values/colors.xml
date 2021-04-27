@@ -9,7 +9,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#1D212B</color>
     <color name="colorPrimaryDark">#181A24</color>
-    <color name="colorAccent">#673AB7</color>
+    <color name="colorAccent">#38DD95</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparentWhite">#CCCCCC</color>
+    <color name="colorSnackBar">#FF03DAC5</color>
+    <color name="colorError">#F87066</color>
+    <color name="colorDespesa">#FF706A</color>
+    <color name="colorDespesaDark">#E66560</color>
+    <color name="colorAccentDespesa">#FF706A</color>
+    <color name="colorReceita">#00D39E</color>
+    <color name="colorReceitaDark">#00BE8B</color>
+    <color name="colorAccentReceita">#00D39E</color>
 </resources>

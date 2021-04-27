@@ -2,25 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
     tools:context=".activity.RegisterFormActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/policyTermsRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Termos de uso"
         android:textColor="@color/colorTransparentWhite"
+        android:textColorHighlight="@color/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/createBtn" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/nameRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -30,6 +32,7 @@
         android:hint="Nome"
         android:inputType="textPersonName"
         android:textColor="@color/colorTransparentWhite"
+        android:textColorHighlight="@color/colorAccent"
         android:textColorHint="@color/colorTransparentWhite"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -39,7 +42,9 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="100dp"
+        android:elevation="5dp"
         android:gravity="center"
         android:text="Crie a sua conta"
         android:textColor="@color/colorWhite"
@@ -50,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/repeatRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -60,13 +65,14 @@
         android:hint="Repita a Password"
         android:inputType="textPassword"
         android:textColor="@color/colorTransparentWhite"
+        android:textColorHighlight="@color/colorAccent"
         android:textColorHint="@color/colorTransparentWhite"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegister" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/emailRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -76,13 +82,14 @@
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:textColor="@color/colorTransparentWhite"
+        android:textColorHighlight="@color/colorAccent"
         android:textColorHint="@color/colorTransparentWhite"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/nameRegister" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/passwordRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -92,22 +99,24 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:textColor="@color/colorTransparentWhite"
+        android:textColorHighlight="@color/colorAccent"
         android:textColorHint="@color/colorTransparentWhite"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/createBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="5dp"
         android:text="Criar"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4"
+        app:layout_constraintTop_toBottomOf="@+id/repeatRegister"
         app:rippleColor="@color/colorAccent" />
 
     <androidx.constraintlayout.widget.Guideline

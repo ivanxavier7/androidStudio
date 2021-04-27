@@ -4,11 +4,25 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon1"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IMiser">
+        <activity
+            android:name=".activity.DespesasActivity"
+            android:label="DespesasActivity"
+            android:theme="@style/despesasTheme"/>
+        <activity
+            android:name=".activity.ReceitasActivity"
+            android:label="ReceitasActivity"
+            android:theme="@style/receitasTheme"
+            />
+        <activity
+            android:name=".activity.MainAppActivity"
+            android:label="@string/title_activity_main_app"
+            android:theme="@style/Theme.IMiser.NoActionBar" />
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/background" />
@@ -16,7 +30,7 @@
         <activity android:name=".activity.RegisterFormActivity" />
         <activity android:name=".activity.LoginFormActivity" />
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

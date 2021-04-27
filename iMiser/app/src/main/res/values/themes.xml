@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.IMiser" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.IMiser" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -14,5 +14,27 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+    <style name="Theme.IMiser.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.IMiser.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.IMiser.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Tema das despesas -->
+    <style name="despesasTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorDespesa</item>
+        <item name="colorPrimaryDark">@color/colorDespesaDark</item>
+        <item name="colorAccent">@color/colorAccentDespesa</item>
+    </style>
+    <!-- Tema das receitas -->
+    <style name="receitasTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorReceita</item>
+        <item name="colorPrimaryDark">@color/colorReceitaDark</item>
+        <item name="colorAccent">@color/colorAccentReceita</item>
     </style>
 </resources>

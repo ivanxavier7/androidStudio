@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.ptda.imiser.R;
 
 public class LoginActivity extends AppCompatActivity {

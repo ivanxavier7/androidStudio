@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "476785150574",
+    "project_id": "imiser-6056b",
+    "storage_bucket": "imiser-6056b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476785150574:android:3ff4bde17121ad12ee347f",
+        "android_client_info": {
+          "package_name": "com.ptda.imiser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "476785150574-r7bscvscd81eu9rpdiv9cbpr0vq12icg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALYnQmxF39DaA3DmNfvMD8ZZiOjCT4IiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "476785150574-r7bscvscd81eu9rpdiv9cbpr0vq12icg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

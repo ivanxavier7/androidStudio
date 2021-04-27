@@ -1,4 +1,4 @@
-package com.ptda.imiser;
+package com.ptda.imiser.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -12,9 +12,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.ptda.imiser.R;
-import com.ptda.imiser.activity.LoginActivity;
 import com.ptda.imiser.adapter.SliderAdapter;
+import com.ptda.imiser.config.FireBaseConfig;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager sliderViewPager;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button preButton;
     private Button nextButton;
     private int currentPage;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(nextButton.getText() == "Finalizar") {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    //resultado = new Random().nextInt(2);  Carregar data
-                    //intent.putExtra("resultado", resultado);
                     startActivity( intent );
                 }
                 sliderViewPager.setCurrentItem(currentPage + 1);
@@ -59,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
                 sliderViewPager.setCurrentItem(currentPage - 1);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        verifyLogin();
     }
 
     public void addDotsIndicator(int position) {
@@ -74,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(dots.length > 0) {
-            dots[position].setTextColor(getResources().getColor(R.color.colorWhite));
+            dots[position].setTextColor(getResources().getColor(R.color.colorSnackBar));
         }
     }
 
@@ -114,4 +120,16 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    public void verifyLogin() {
+        auth = FireBaseConfig.getFireBaseAuth();
+        //auth.signOut(); // Logout
+        if(auth.getCurrentUser() != null) {
+            startApp();
+        }
+    }
+
+    public void startApp() {
+        startActivity(new Intent(this, MainAppActivity.class));
+    }
 }
