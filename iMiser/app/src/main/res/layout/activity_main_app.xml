@@ -80,12 +80,13 @@
         android:clickable="true"
         android:elevation="6dp"
         android:visibility="invisible"
+        app:backgroundTint="@color/colorDespesa"
         app:layout_anchor="@+id/menuBtn"
         app:layout_anchorGravity="top|center"
         app:layout_constraintBottom_toTopOf="@+id/receitasBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/levantamentoTextViewMenu"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic__remove_white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/menuBtn"
@@ -96,7 +97,7 @@
         android:clickable="true"
         android:focusable="true"
         android:tint="@color/colorWhite"
-        app:backgroundTint="@color/colorError"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add" />

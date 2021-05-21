@@ -347,7 +347,7 @@ public class MainAppActivity extends AppCompatActivity {
             totalDeposito = totalDeposito - transaction.getValue();
             userRef.child("depositoTotal").setValue(totalDeposito);
         } else {
-            totalLevantamento = totalLevantamento - transaction.getValue();
+            totalLevantamento = totalLevantamento + transaction.getValue();
             userRef.child(("levantamentoTotal")).setValue(totalLevantamento);
         }
     }
