@@ -35,7 +35,7 @@ public class AdapterTransaction extends RecyclerView.Adapter<AdapterTransaction.
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Transaction transaction = transactionList.get(position);
         holder.title.setText(transaction.getDescription());
-        holder.value.setText(String.valueOf(transaction.getValue()));
+        holder.value.setText(String.valueOf(transaction.getValue()) + "€");
         holder.category.setText(transaction.getCategory());
         holder.value.setTextColor(context.getResources().getColor(R.color.colorAccent));
 

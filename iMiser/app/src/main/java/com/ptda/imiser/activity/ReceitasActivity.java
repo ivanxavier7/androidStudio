@@ -1,15 +1,27 @@
 package com.ptda.imiser.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.content.Intent;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,10 +31,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.ptda.imiser.R;
 import com.ptda.imiser.config.FireBaseConfig;
 import com.ptda.imiser.helper.Base64Custom;
+import com.ptda.imiser.helper.CustomLocationListener;
 import com.ptda.imiser.helper.DateUtilCustom;
 import com.ptda.imiser.model.Transaction;
 import com.ptda.imiser.model.UserModel;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class ReceitasActivity extends AppCompatActivity {
     private EditText editTotal;
     private TextInputEditText editCategory;
@@ -36,6 +50,11 @@ public class ReceitasActivity extends AppCompatActivity {
     private FirebaseAuth auth = FireBaseConfig.getFireBaseAuth();
     private double totalReceita;
     private double receita;
+    private WebView webview;
+
+    private Switch gpsSwitch;
+    private TextView gpsView1, gpsView2, gpsView3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +68,73 @@ public class ReceitasActivity extends AppCompatActivity {
         dateTitle = findViewById(R.id.dateTitleD);
         categoryTitle = findViewById(R.id.categoryTitleD);
         descriptionTitle = findViewById(R.id.descriptionTitleD);
+        webview = findViewById(R.id.webv);
+
+
+        gpsSwitch = findViewById(R.id.gpsSwitch);
+        gpsView1 = findViewById(R.id.gpsView1);
+        gpsView2 = findViewById(R.id.gpsView2);
+        gpsView3 = findViewById(R.id.gpsView3);
+
+        gpsSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(gpsSwitch.isChecked()) {
+                    searchLocationGPS(v);
+
+                }
+            }
+        });
 
         getDespesaTotal();
     }
+
+    // Go back to the app after searching in google maps
+    @Override
+    public void onBackPressed() {
+        if(webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void searchLocationGPS(View v) {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)   != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(ReceitasActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(ReceitasActivity.this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(ReceitasActivity.this, new String[] {Manifest.permission.ACCESS_NETWORK_STATE}, 1);
+            return;
+        }
+
+        LocationManager mLocManager  = (LocationManager) getSystemService(ReceitasActivity.this.LOCATION_SERVICE);
+        LocationListener mLocListener = new CustomLocationListener(ReceitasActivity.this);
+
+        mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocListener);
+
+        if (mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            gpsView1.setText(CustomLocationListener.country);
+            gpsView2.setText(CustomLocationListener.city);
+            gpsView3.setText(CustomLocationListener.address);
+            this.showGoogleMaps(CustomLocationListener.latitude, CustomLocationListener.longitude);
+        } else {
+            gpsView1.setText("Permita o GPS!");
+            gpsView2.setText("");
+            gpsView3.setText("");
+        }
+    }
+
+    public void showGoogleMaps(double latitude, double longitude) {
+        webview.setWebViewClient(new WebViewClient());
+        webview.loadUrl("https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude);
+        WebSettings webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+    }
+
+
 
     public void saveReceita(View view) {
         if(validation()) {
@@ -63,6 +146,8 @@ public class ReceitasActivity extends AppCompatActivity {
             transaction.setDescription(editDescription.getText().toString());
             transaction.setDate(editDate.getText().toString());
             transaction.setType("deposito");
+            transaction.setLatitude(CustomLocationListener.latitude);
+            transaction.setLongitude(CustomLocationListener.longitude);
             receita = totalReceita + actualValue;
             updateReceita(receita);
             transaction.save(chosenDate);

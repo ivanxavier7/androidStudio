@@ -2,7 +2,12 @@ package com.ptda.imiser.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -19,6 +24,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +45,11 @@ import com.ptda.imiser.helper.Base64Custom;
 import com.ptda.imiser.model.Transaction;
 import com.ptda.imiser.model.UserModel;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainAppActivity extends AppCompatActivity {
     private TextView textUserName;
@@ -54,6 +64,8 @@ public class MainAppActivity extends AppCompatActivity {
     private FloatingActionButton menuBtn;
     private TextView despesaView;
     private TextView receitaView;
+    private TextView textCity;
+    private TextView textCountry;
     private Boolean clicked = false;
     private FirebaseAuth auth = FireBaseConfig.getFireBaseAuth();
     private DatabaseReference firebaseRef = FireBaseConfig.getFirebaseDatabase();
@@ -71,6 +83,10 @@ public class MainAppActivity extends AppCompatActivity {
     private String monthYear;
     private TextView levantamentoText;
     private TextView depositoText;
+    private double latitude = 0.00;
+    private double longitude = 0.00;
+    private WebView webViewMenu;
+    private static Geocoder geocoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +109,12 @@ public class MainAppActivity extends AppCompatActivity {
         toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim);
         levantamentoText = findViewById(R.id.levantamentoTextViewMenu);
         depositoText = findViewById(R.id.depositoTextViewMenu);
+        textCity = findViewById(R.id.textCity);
+        textCountry = findViewById(R.id.textCountry);
         levantamentoText.bringToFront();
         depositoText.bringToFront();
         recyclerTransaction = findViewById(R.id.recyclerTransaction);
+        webViewMenu = findViewById(R.id.webViewMenu);
         configureCalendarView();
         swipe();
         adapterRecycler = new AdapterTransaction(transactionList, getApplicationContext());
@@ -284,6 +303,8 @@ public class MainAppActivity extends AppCompatActivity {
         ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                // On click give the map location
+                locationTransaction(viewHolder);
                 int dragFlags = ItemTouchHelper.ACTION_STATE_IDLE;
                 int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
                 return makeMovementFlags(dragFlags, swipeFlags);
@@ -336,6 +357,76 @@ public class MainAppActivity extends AppCompatActivity {
 
         AlertDialog alert = alertDialog.create();
         alert.show();
+    }
+
+    public void locationTransaction(RecyclerView.ViewHolder viewHolder) {
+        int position = viewHolder.getAdapterPosition();
+        transaction = transactionList.get(position);
+        String idUser = Base64Custom.encodeBase64Custom(auth.getCurrentUser().getEmail());
+
+        firebaseRef
+                .child("movimento")
+                .child(idUser)
+                .child(monthYear)
+                .child(transaction.getKey())
+                .child("latitude")
+                .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful() && task.getResult().getValue() != null) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    latitude = (double) task.getResult().getValue();
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+        firebaseRef
+                .child("movimento")
+                .child(idUser)
+                .child(monthYear)
+                .child(transaction.getKey())
+                .child("longitude")
+                .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful() && task.getResult().getValue() != null) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    longitude = (double) task.getResult().getValue();
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+        showGoogleMaps(latitude, longitude);
+
+    }
+
+    public void showGoogleMaps(double latitude, double longitude) {
+        webViewMenu.setWebViewClient(new WebViewClient());
+        webViewMenu.loadUrl("https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude);
+        WebSettings webSettings = webViewMenu.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            if (addresses != null && addresses.size() > 0) {
+                textCountry.setText("País: " + addresses.get(0).getCountryName());
+                textCity.setText("Cidade: " + addresses.get(0).getLocality());
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void updateValue(){
