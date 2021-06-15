@@ -20,8 +20,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -68,13 +66,13 @@ public class ReceitasActivity extends AppCompatActivity {
         dateTitle = findViewById(R.id.dateTitleD);
         categoryTitle = findViewById(R.id.categoryTitleD);
         descriptionTitle = findViewById(R.id.descriptionTitleD);
-        webview = findViewById(R.id.webv);
+        webview = findViewById(R.id.webViewReceitas);
 
 
         gpsSwitch = findViewById(R.id.gpsSwitch);
-        gpsView1 = findViewById(R.id.gpsView1);
-        gpsView2 = findViewById(R.id.gpsView2);
-        gpsView3 = findViewById(R.id.gpsView3);
+        gpsView1 = findViewById(R.id.gpsViewReceitas1);
+        gpsView2 = findViewById(R.id.gpsViewReceitas2);
+        gpsView3 = findViewById(R.id.gpsViewReceitas3);
 
         gpsSwitch.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,11 +2,21 @@ package com.ptda.imiser.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ptda.imiser.R;
 import com.ptda.imiser.config.FireBaseConfig;
 import com.ptda.imiser.helper.Base64Custom;
+import com.ptda.imiser.helper.CustomLocationListener;
 import com.ptda.imiser.helper.DateUtilCustom;
 import com.ptda.imiser.model.Transaction;
 import com.ptda.imiser.model.UserModel;
@@ -36,6 +47,9 @@ public class DespesasActivity extends AppCompatActivity {
     private FirebaseAuth auth = FireBaseConfig.getFireBaseAuth();
     private double totalDespesa;
     private double despesa;
+    private WebView webview;
+    private Button gpsButton;
+    private TextView gpsView1, gpsView2, gpsView3;
 
 
     @Override
@@ -52,7 +66,66 @@ public class DespesasActivity extends AppCompatActivity {
         categoryTitle = findViewById(R.id.categoryTitleD);
         descriptionTitle = findViewById(R.id.descriptionTitleD);
 
+        webview = findViewById(R.id.webViewDespesas);
+        gpsButton = findViewById(R.id.gpsButtonDespesas);
+        gpsView1 = findViewById(R.id.gpsViewDespesas1);
+        gpsView2 = findViewById(R.id.gpsViewDespesas2);
+        gpsView3 = findViewById(R.id.gpsViewDespesas3);
+
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    searchLocationGPS(v);
+            }
+        });
+
         getDespesaTotal();
+    }
+
+    public void onBackPressed() {
+        if(webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void searchLocationGPS(View v) {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)   != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(DespesasActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(DespesasActivity.this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(DespesasActivity.this, new String[] {Manifest.permission.ACCESS_NETWORK_STATE}, 1);
+            return;
+        }
+
+        LocationManager mLocManager  = (LocationManager) getSystemService(DespesasActivity.this.LOCATION_SERVICE);
+        LocationListener mLocListener = new CustomLocationListener(DespesasActivity.this);
+
+        mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocListener);
+
+        if (mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            gpsView1.bringToFront();
+            gpsView2.bringToFront();
+            gpsView3.bringToFront();
+            gpsView1.setText(CustomLocationListener.country);
+            gpsView2.setText(CustomLocationListener.city);
+            gpsView3.setText(CustomLocationListener.address);
+            this.showGoogleMaps(CustomLocationListener.latitude, CustomLocationListener.longitude);
+        } else {
+            gpsView1.setText("Permita o GPS!");
+            gpsView2.setText("");
+            gpsView3.setText("");
+        }
+    }
+
+    public void showGoogleMaps(double latitude, double longitude) {
+        webview.setWebViewClient(new WebViewClient());
+        webview.loadUrl("https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude);
+        WebSettings webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
     }
 
     public void saveDespesa(View view) {
@@ -65,6 +138,8 @@ public class DespesasActivity extends AppCompatActivity {
             transaction.setDescription(editDescription.getText().toString());
             transaction.setDate(editDate.getText().toString());
             transaction.setType("levantamento");
+            transaction.setLatitude(CustomLocationListener.latitude);
+            transaction.setLongitude(CustomLocationListener.longitude);
             despesa = totalDespesa - actualValue;
             updateDespesa( despesa);
             transaction.save(chosenDate);

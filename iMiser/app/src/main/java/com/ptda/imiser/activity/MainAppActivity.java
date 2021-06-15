@@ -128,18 +128,7 @@ public class MainAppActivity extends AppCompatActivity {
                 onMenuButtonClicked();
             }
         });
-        receitasBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startReceitas();
-                }
-        });
-        despesasBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startDespesas();
-            }
-        });
+
     }
 
     @Override
@@ -168,11 +157,33 @@ public class MainAppActivity extends AppCompatActivity {
 
     public void setVisibility(Boolean clicked) {
         if(!clicked) {
+            receitasBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startReceitas();
+                }
+            });
+            despesasBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startDespesas();
+                }
+            });
             receitasBtn.setVisibility(View.VISIBLE);
             despesasBtn.setVisibility(View.VISIBLE);
             receitaView.setVisibility(View.VISIBLE);
             despesaView.setVisibility(View.VISIBLE);
         } else {
+            receitasBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
+            despesasBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
             receitasBtn.setVisibility(View.INVISIBLE);
             despesasBtn.setVisibility(View.INVISIBLE);
             receitaView.setVisibility(View.INVISIBLE);
