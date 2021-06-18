@@ -41,7 +41,7 @@ public class AdapterTransaction extends RecyclerView.Adapter<AdapterTransaction.
 
         if (transaction.getType().equals("levantamento")) {
             holder.value.setTextColor(context.getResources().getColor(R.color.colorError));
-            holder.value.setText("-" + transaction.getValue());
+            holder.value.setText("-" + transaction.getValue() + "€");
         }
     }
 

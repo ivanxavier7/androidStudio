@@ -49,7 +49,7 @@ public class DespesasActivity extends AppCompatActivity {
     private double despesa;
     private WebView webview;
     private Button gpsButton;
-    private TextView gpsView1, gpsView2, gpsView3;
+    private TextView gpsViewDespesas1, gpsViewDespesas2, gpsViewDespesas3;
 
 
     @Override
@@ -68,9 +68,9 @@ public class DespesasActivity extends AppCompatActivity {
 
         webview = findViewById(R.id.webViewDespesas);
         gpsButton = findViewById(R.id.gpsButtonDespesas);
-        gpsView1 = findViewById(R.id.gpsViewDespesas1);
-        gpsView2 = findViewById(R.id.gpsViewDespesas2);
-        gpsView3 = findViewById(R.id.gpsViewDespesas3);
+        gpsViewDespesas1 = findViewById(R.id.gpsViewDespesas1);
+        gpsViewDespesas2 = findViewById(R.id.gpsViewDespesas2);
+        gpsViewDespesas3 = findViewById(R.id.gpsViewDespesas3);
 
         gpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,17 +107,17 @@ public class DespesasActivity extends AppCompatActivity {
         mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocListener);
 
         if (mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            gpsView1.bringToFront();
-            gpsView2.bringToFront();
-            gpsView3.bringToFront();
-            gpsView1.setText(CustomLocationListener.country);
-            gpsView2.setText(CustomLocationListener.city);
-            gpsView3.setText(CustomLocationListener.address);
+            gpsViewDespesas1.bringToFront();
+            gpsViewDespesas2.bringToFront();
+            gpsViewDespesas3.bringToFront();
+            gpsViewDespesas1.setText(CustomLocationListener.country);
+            gpsViewDespesas2.setText(CustomLocationListener.city);
+            gpsViewDespesas3.setText(CustomLocationListener.address);
             this.showGoogleMaps(CustomLocationListener.latitude, CustomLocationListener.longitude);
         } else {
-            gpsView1.setText("Permita o GPS!");
-            gpsView2.setText("");
-            gpsView3.setText("");
+            gpsViewDespesas1.setText("Permita o GPS!");
+            gpsViewDespesas2.setText("");
+            gpsViewDespesas3.setText("");
         }
     }
 

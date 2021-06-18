@@ -31,13 +31,13 @@ public class SliderAdapter extends PagerAdapter {
 
     public String[] slide_headings = {
             "Organize as suas contas",
-            "Monotorize o seu dinheiro",
+            "Monitorize o seu dinheiro",
             "Descubra o seu saldo"
     };
 
     public String[] slide_desc = {
             "Em qualquer lugar, de forma simples e gratuita",
-            "Com alertas e categorias para facilitar a organizar o seu património",
+            "Saiba onde gasta o seu dinheiro através do GPS no seu telemóvel",
             "O iMiser permite centralizar o seu saldo num único valor"
     };
 

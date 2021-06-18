@@ -15,8 +15,8 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +48,9 @@ public class ReceitasActivity extends AppCompatActivity {
     private FirebaseAuth auth = FireBaseConfig.getFireBaseAuth();
     private double totalReceita;
     private double receita;
-    private WebView webview;
+    private WebView webviewReceitas;
 
-    private Switch gpsSwitch;
+    private Button gpsButton;
     private TextView gpsView1, gpsView2, gpsView3;
 
 
@@ -66,21 +66,18 @@ public class ReceitasActivity extends AppCompatActivity {
         dateTitle = findViewById(R.id.dateTitleD);
         categoryTitle = findViewById(R.id.categoryTitleD);
         descriptionTitle = findViewById(R.id.descriptionTitleD);
-        webview = findViewById(R.id.webViewReceitas);
+        webviewReceitas = findViewById(R.id.webViewReceitas);
 
 
-        gpsSwitch = findViewById(R.id.gpsSwitch);
+        gpsButton = findViewById(R.id.gpsButtonReceitas);
         gpsView1 = findViewById(R.id.gpsViewReceitas1);
         gpsView2 = findViewById(R.id.gpsViewReceitas2);
         gpsView3 = findViewById(R.id.gpsViewReceitas3);
 
-        gpsSwitch.setOnClickListener(new View.OnClickListener() {
+        gpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(gpsSwitch.isChecked()) {
-                    searchLocationGPS(v);
-
-                }
+                searchLocationGPS(v);
             }
         });
 
@@ -90,8 +87,8 @@ public class ReceitasActivity extends AppCompatActivity {
     // Go back to the app after searching in google maps
     @Override
     public void onBackPressed() {
-        if(webview.canGoBack()) {
-            webview.goBack();
+        if(webviewReceitas.canGoBack()) {
+            webviewReceitas.goBack();
         } else {
             super.onBackPressed();
         }
@@ -126,9 +123,9 @@ public class ReceitasActivity extends AppCompatActivity {
     }
 
     public void showGoogleMaps(double latitude, double longitude) {
-        webview.setWebViewClient(new WebViewClient());
-        webview.loadUrl("https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude);
-        WebSettings webSettings = webview.getSettings();
+        webviewReceitas.setWebViewClient(new WebViewClient());
+        webviewReceitas.loadUrl("https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude);
+        WebSettings webSettings = webviewReceitas.getSettings();
         webSettings.setJavaScriptEnabled(true);
     }
 
